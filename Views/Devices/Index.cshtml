@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Device>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-between align-items-center">
+            <h1>Devices</h1>
+            
+            <div class="buttons">
+                <a asp-action="Create" class="btn btn-primary">Add device</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Serial number</th>
+                        <th>Name</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (Device device in Model)
+                {
+                    <tr>
+                        <td>@device.SerialNumber</td>
+                        <td>@device.Name</td>
+                        <td>@device.Stock</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
