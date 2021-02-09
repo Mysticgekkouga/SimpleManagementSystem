@@ -1,0 +1,31 @@
+﻿@model LoginViewModel;
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-primary">
+                <span>Authentication cookie has a lifespan of 30 minutes.</span>
+            </div>
+            <form asp-action="Index" method="post">
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" value="test@test.com"/>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" value="TestPasssword1234!"/>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <input type="hidden" name="ReturnUrl" value="@ViewData["ReturnUrl"]" />
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial"/>
+}

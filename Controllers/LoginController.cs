@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using SimpleManagementSystem.ViewModels.Login;
 
-namespace SimpleManagementSystem.Controllers.Auth
+namespace SimpleManagementSystem.Controllers
 {
     public class LoginController : Controller
     {
@@ -16,23 +16,29 @@ namespace SimpleManagementSystem.Controllers.Auth
             _signInManager = signInManager;
         }
         
-        public IActionResult Index()
+        public IActionResult Index(string ReturnUrl)
         {
+            ViewData["ReturnUrl"] = ReturnUrl;
+            
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(string email, string password)
+        public async Task<IActionResult> Index(LoginViewModel loginView, string? ReturnUrl)
         {
-            if (ModelState.IsValid)
-            {
-                SignInResult result = await _signInManager.PasswordSignInAsync(email, password, false, false);
+            ViewData["ReturnUrl"] = ReturnUrl;
 
-                if (result.Succeeded)
-                {
-                    return RedirectToAction(nameof(Index), "Home");
-                }
+            if (!ModelState.IsValid) return View();
+            var result = await _signInManager.PasswordSignInAsync(loginView.Email, loginView.Password, true, false);
+
+            if (result.Succeeded)
+            {
+                if (ReturnUrl != null) return Redirect(ReturnUrl);
+                    
+                return RedirectToAction(nameof(Index), "Home");
             }
+                
+            ModelState.AddModelError("Email", "Credentials incorrect");
 
             return View();
         }

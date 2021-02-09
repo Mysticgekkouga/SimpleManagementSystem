@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using System.Net.Http
+@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,9 +23,23 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Devices" asp-action="Index">Devices</a>
-                        </li>
+                        @* 
+                            Is authenticated works for all types of claims principals
+                            Example: if you use social media sign in instead of identity
+                            SignInManager.IsSignedIn only works for dotnet identity
+                        *@
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Devices" asp-action="Index">Devices</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Inloggen</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
